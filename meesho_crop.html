@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Crop Meesho shipping labels from PDFs quickly and easily with our free online tool. No registration required.">
-    <meta name="keywords" content="Meesho PDF cropper, shipping label cropper, Meesho labels, PDF label tool, e-commerce shipping">
+    <meta name="description"
+        content="Crop Meesho shipping labels from PDFs quickly and easily with our free online tool. No registration required.">
+    <meta name="keywords"
+        content="Meesho PDF cropper, shipping label cropper, Meesho labels, PDF label tool, e-commerce shipping">
     <meta name="author" content="PDF Label Cropper">
     <meta name="robots" content="index, follow">
     <title>Meesho PDF Label Cropper | Easy Shipping Label Tool</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background: #f9fafb;
             scroll-behavior: smooth;
         }
+
         .card-hover {
             transition: all 0.3s ease;
         }
+
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
+
         .nav-link {
             position: relative;
         }
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -36,26 +44,42 @@
             background-color: #facc15;
             transition: width 0.3s ease;
         }
+
         .nav-link:hover::after {
             width: 100%;
         }
+
         .compact-btn {
             height: 2.5rem;
             font-size: 0.875rem;
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
         }
+
         .notification {
             animation: fadeInOut 3s ease-in-out;
         }
+
         @keyframes fadeInOut {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
+            0% {
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
         }
     </style>
 </head>
+
 <body class="bg-gray-100 text-gray-800">
     <!-- Header -->
     <header class="bg-gray-50 shadow-sm sticky top-0 z-50">
@@ -63,8 +87,10 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
                     <a href="/" class="flex items-center" aria-label="PDF Label Cropper Home">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path
+                                d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
                             <path d="M3 8a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
                         </svg>
                         <span class="ml-2 text-xl font-bold text-gray-700">PDFLabelCropper</span>
@@ -72,29 +98,45 @@
                 </div>
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="/" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Home</a>
-                    <a href="flipkart_crop.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Flipkart</a>
-                    <a href="meesho_crop.html" class="nav-link text-yellow-500 border-b-2 border-yellow-400 font-medium" aria-current="page">Meesho</a>
-                    <a href="manual_cropping.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Custom Crop</a>
+                    <a href="flipkart_crop.html"
+                        class="nav-link text-yellow-500 border-b-2 border-yellow-400 font-medium"
+                        aria-current="page">Flipkart</a>
+                    <a href="meesho_crop.html"
+                        class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Meesho</a>
+                    <a href="manual_cropping.html"
+                        class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Custom Crop</a>
                     <a href="about.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">About</a>
                 </div>
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-yellow-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                        <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-yellow-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
-                        <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
             </div>
             <div id="mobile-menu" class="md:hidden hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Home</a>
-                    <a href="flipkart_crop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Flipkart</a>
-                    <a href="meesho_crop.html" class="block px-3 py-2 rounded-md text-base font-medium text-yellow-500 bg-gray-200" aria-current="page">Meesho</a>
-                    <a href="manual_cropping.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Custom Crop</a>
-                    <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">About</a>
+                    <a href="/"
+                        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Home</a>
+                    <a href="flipkart_crop.html"
+                        class="block px-3 py-2 rounded-md text-base font-medium text-yellow-500 bg-gray-200"
+                        aria-current="page">Flipkart</a>
+                    <a href="meesho_crop.html"
+                        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Meesho</a>
+                    <a href="manual_cropping.html"
+                        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Custom
+                        Crop</a>
+                    <a href="about.html"
+                        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">About</a>
                 </div>
             </div>
         </nav>
@@ -102,27 +144,35 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-600">Meesho PDF <span class="text-yellow-400">Label
+                    Cropper</span></h1>
+            <p class="mt-2 text-sm md:text-base text-gray-500">Crop Meesho shipping labels in seconds—free and secure.
+            </p>
+        </div>
+
         <div class="max-w-3xl mx-auto">
-            <section class="bg-white shadow-md rounded-lg p-6 card-hover">
-                <div class="text-center mb-6">
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-600">Meesho PDF <span class="text-yellow-400">Label Cropper</span></h1>
-                    <p class="mt-2 text-sm md:text-base text-gray-500">Crop Meesho shipping labels in seconds—free and secure.</p>
-                </div>
-                <div class="flex items-center justify-center mb-4">
-                    <img src="../images/meesho-logo.png" alt="Meesho Logo" class="h-10 mr-4">
+            <section class="bg-white shadow-md rounded-lg p-4 card-hover">
+                <div class="flex items-center justify-center mb-3">
+                    <img src="../images/Meesho.png" alt="Meesho Logo" class="h-10 mr-4">
                     <div class="text-left">
                         <h2 class="text-lg font-semibold text-gray-700">Upload Your Meesho PDF</h2>
                         <p class="text-sm text-gray-500">Automatically crop your shipping label with ease.</p>
                     </div>
                 </div>
-                <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-yellow-400 transition-colors" id="drop-area">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-yellow-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                <div id="drop-area"
+                    class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-3 text-center hover:border-yellow-400 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-yellow-400 mb-1" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
                     <p class="text-lg font-medium text-gray-700">Drag & drop your PDF here</p>
-                    <p class="text-sm text-gray-500 mt-2">or</p>
-                    <label for="file-input" class="compact-btn inline-flex items-center mt-4 px-4 py-2 bg-yellow-400 text-gray-800 font-medium rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <p class="text-md text-gray-600">or</p>
+                    <label for="file-input"
+                        class="compact-btn inline-flex items-center mt-2 px-4 py-2 bg-yellow-400 text-gray-800 font-medium rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                         Upload PDF
@@ -131,18 +181,23 @@
                     <p class="mt-2 text-sm text-gray-500">Supported format: PDF (Max size: 10MB)</p>
                 </div>
                 <div id="processing-area" class="mt-6 text-center hidden">
-                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-yellow-400 border-t-transparent"></div>
+                    <div
+                        class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-yellow-400 border-t-transparent">
+                    </div>
                     <p class="mt-2 text-gray-600">Processing your PDF...</p>
                 </div>
                 <div id="result-area" class="mt-6 hidden text-center">
                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Your cropped label is ready!</h3>
-                    <button id="new-upload-btn" class="compact-btn bg-gray-600 text-white font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                    <button id="new-upload-btn"
+                        class="compact-btn bg-gray-600 text-white font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
                         Crop Another Label
                     </button>
                 </div>
-                <div id="notification" class="fixed bottom-4 right-4 p-4 rounded-lg bg-yellow-100 text-gray-800 shadow-md hidden notification">
+                <div id="notification"
+                    class="fixed bottom-4 right-4 p-4 rounded-lg bg-yellow-100 text-gray-800 shadow-md hidden notification">
                     <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-yellow-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                         <span>File successfully downloaded!</span>
@@ -154,21 +209,86 @@
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-200 py-8">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-sm">© 2025 PDFLabelCropper. All rights reserved.</p>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <!-- Brand Section -->
+                <div>
+                    <a href="/" class="flex items-center justify-center md:justify-start mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path
+                                d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
+                            <path d="M3 8a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-gray-200">PDFLabelCropper</span>
+                    </a>
+                    <p class="text-sm text-gray-400">Effortless PDF label cropping for e-commerce.</p>
+                </div>
+                <!-- Links Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-yellow-400 mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-300 hover:text-yellow-400 transition-colors">Home</a></li>
+                        <li><a href="/flipkart_crop.html"
+                                class="text-gray-300 hover:text-yellow-400 transition-colors">Flipkart</a></li>
+                        <li><a href="/meesho_crop.html"
+                                class="text-gray-300 hover:text-yellow-400 transition-colors">Meesho</a></li>
+                        <li><a href="/manual_cropping.html"
+                                class="text-gray-300 hover:text-yellow-400 transition-colors">Custom Crop</a></li>
+                        <li><a href="/about" class="text-gray-300 hover:text-yellow-400 transition-colors">About</a>
+                        </li>
+                        <li><a href="/contact" class="text-gray-300 hover:text-yellow-400 transition-colors">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Contact/Support Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-yellow-400 mb-4">Support</h3>
+                    <p class="text-sm text-gray-400">Need help? Reach out to us!</p>
+                    <p class="text-sm text-gray-300 mt-2">
+                        <a href="mailto:support@pdflabelcropper.com"
+                            class="hover:text-yellow-400 transition-colors">support@pdflabelcropper.com</a>
+                    </p>
+                    <!-- <div class="mt-4 flex justify-center md:justify-start space-x-4">
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.3-1.6-1.3-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.5-.3-5.1-1.3-5.1-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.7.8 1.2 1.8 1.2 3.1 0 4.4-2.6 5.4-5.1 5.7.4.3.7 1 .7 2v3.3c0 .3.2.7.8.6A12 12 0 0012 0z" />
+                        </svg>
+                    </a>
+                </div> -->
+                </div>
+            </div>
+            <div class="mt-8 text-center border-t border-gray-700 pt-4">
+                <p class="text-sm text-gray-400">© 2025 PDFLabelCropper. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/pdf-lib@1.17.1"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const menuIconOpen = document.getElementById('menu-icon-open');
             const menuIconClose = document.getElementById('menu-icon-close');
-            
-            mobileMenuButton.addEventListener('click', function() {
+            const fileInput = document.getElementById('file-input');
+            const dropArea = document.getElementById('drop-area');
+            const processingArea = document.getElementById('processing-area');
+            const resultArea = document.getElementById('result-area');
+            const newUploadBtn = document.getElementById('new-upload-btn');
+            const notification = document.getElementById('notification');
+
+            let croppedPdfBytes = null;
+            let originalFilename = '';
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', function () {
                 const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
                 mobileMenuButton.setAttribute('aria-expanded', !expanded);
                 mobileMenu.classList.toggle('hidden');
@@ -176,19 +296,9 @@
                 menuIconClose.classList.toggle('hidden');
             });
 
-            const fileInput = document.getElementById('file-input');
-            const dropArea = document.getElementById('drop-area');
-            const processingArea = document.getElementById('processing-area');
-            const resultArea = document.getElementById('result-area');
-            const newUploadBtn = document.getElementById('new-upload-btn');
-            const notification = document.getElementById('notification');
-            
-            let croppedPdfBytes = null;
-            let originalFilename = '';
-
+            // Drag-and-drop event listeners
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                 dropArea.addEventListener(eventName, preventDefaults, false);
-                document.body.addEventListener(eventName, preventDefaults, false);
             });
 
             ['dragenter', 'dragover'].forEach(eventName => {
@@ -208,25 +318,25 @@
                 e.stopPropagation();
             }
 
-            function highlight() {
-                dropArea.classList.add('border-yellow-400');
-                dropArea.classList.add('bg-yellow-50');
+            function highlight(e) {
+                preventDefaults(e);
+                dropArea.classList.add('border-yellow-400', 'bg-yellow-50');
             }
 
-            function unhighlight() {
-                dropArea.classList.remove('border-yellow-400');
-                dropArea.classList.remove('bg-yellow-50');
+            function unhighlight(e) {
+                preventDefaults(e);
+                dropArea.classList.remove('border-yellow-400', 'bg-yellow-50');
             }
 
             function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                handleFiles(files);
+                preventDefaults(e);
+                const files = e.dataTransfer.files;
+                handleFiles({ target: { files } });
             }
 
             function handleFiles(e) {
-                let files = e.target.files || e.dataTransfer.files;
-                if (files.length) {
+                const files = e.target.files || e.dataTransfer.files;
+                if (files && files.length) {
                     const file = files[0];
                     if (file.type === 'application/pdf' && file.size <= 10 * 1024 * 1024) {
                         processFile(file);
@@ -241,11 +351,11 @@
                 processingArea.classList.remove('hidden');
 
                 const reader = new FileReader();
-                reader.onload = async function(e) {
+                reader.onload = async function (e) {
                     const arrayBuffer = e.target.result;
                     await cropPdf(arrayBuffer, file.name);
                 };
-                reader.onerror = function() {
+                reader.onerror = function () {
                     alert('Error reading the file.');
                     resetUI();
                 };
@@ -256,7 +366,7 @@
                 try {
                     const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
                     const pages = pdfDoc.getPages();
-                    const cropWidth = 225; // Placeholder values; adjust as needed for Meesho
+                    const cropWidth = 225;
                     const cropHeight = 365;
                     const left = 185;
                     const bottom = 20;
@@ -309,4 +419,5 @@
         });
     </script>
 </body>
+
 </html>
