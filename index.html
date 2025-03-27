@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online PDF label cropper for Flipkart, Meesho and more. Save time with our automatic e-commerce shipping label cropping tool. No registration required.">
+    <meta name="keywords" content="PDF cropper, label cropper, e-commerce labels, Flipkart PDF crop, Meesho labels, shipping label tool">
+    <meta name="author" content="PDF Label Cropper">
+    <meta property="og:title" content="PDF Label Cropper - Free Online Tool for E-commerce Sellers">
+    <meta property="og:description" content="Instantly crop shipping labels for Flipkart, Meesho and more with our free online tool. No downloads, no login required.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pdflabelcropper.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>PDF Label Cropper | Free Online Tool for Flipkart & Meesho Sellers</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f9fafb;
+            scroll-behavior: smooth;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #facc15;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .platform-card {
+            transition: all 0.3s ease;
+            border-top: 4px solid transparent;
+        }
+        .platform-card:hover {
+            border-top-color: #facc15;
+        }
+        .compact-btn {
+            height: 2.5rem;
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <!-- Header -->
+    <header class="bg-gray-50 shadow-sm sticky top-0 z-50" x-data="{ open: false }">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
+                            <path d="M3 8a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-gray-700">PDFLabelCropper</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/flipkart_crop.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Flipkart</a>
+                    <a href="/meesho_crop.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Meesho</a>
+                    <a href="/manual_cropping.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Custom Crop</a>
+                    <a href="/about.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">About</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-yellow-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg x-show="open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display: none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div x-show="open" class="md:hidden" style="display: none;">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Home</a>
+                    <a href="/flipkart_crop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Flipkart</a>
+                    <a href="/meesho_crop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Meesho</a>
+                    <a href="/manual_cropping.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Custom Crop</a>
+                    <a href="/about.com" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">About</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gray-100 py-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col justify-center items-center text-center">
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-600 leading-tight">
+                    Save Time with <span class="text-yellow-400">Automatic PDF Label Cropping</span>
+                </h1>
+                <p class="mt-2 text-sm md:text-base text-gray-500 max-w-2xl">
+                    Free online tool to automatically crop e-commerce shipping labels for Flipkart, Meesho, and more—no registration or downloads needed.
+                </p>
+                <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl">
+                    <a href="/flipkart_crop.html" class="platform-card bg-white rounded-lg shadow-md p-4 card-hover">
+                        <div class="flex items-center justify-center h-12 w-12 bg-gray-200 rounded-lg mb-2">
+                            <img src="images/Flipkart-logo.png" class="h-8 w-8" alt="Flipkart Logo">
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-700">Flipkart Labels</h3>
+                        <p class="mt-1 text-sm text-gray-500">Crop Flipkart shipping labels instantly.</p>
+                    </a>
+                    <a href="/meesho_crop.html" class="platform-card bg-white rounded-lg shadow-md p-4 card-hover">
+                        <div class="flex items-center justify-center h-12 w-12 bg-gray-200 rounded-lg mb-2">
+                            <img src="images/meesho-logo.png" class="h-8 w-8" alt="Meesho Logo">
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-700">Meesho Labels</h3>
+                        <p class="mt-1 text-sm text-gray-500">Fast cropping for Meesho labels.</p>
+                    </a>
+                    <a href="/manual_cropping.html" class="platform-card bg-white rounded-lg shadow-md p-4 card-hover">
+                        <div class="flex items-center justify-center h-12 w-12 bg-gray-200 rounded-lg mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-700">Custom Crop</h3>
+                        <p class="mt-1 text-sm text-gray-500">Manually crop any PDF area.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-700">How It Works</h2>
+                <p class="mt-2 text-base text-gray-500 max-w-3xl mx-auto">
+                    Our tool is fast and simple. Follow these 3 steps to crop your labels.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center card-hover">
+                    <div class="mx-auto w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-full text-yellow-500 text-xl font-bold mb-4">1</div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Upload Your PDF</h3>
+                    <p class="text-gray-500 text-sm">Select your PDF file (up to 10MB).</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center card-hover">
+                    <div class="mx-auto w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-full text-yellow-500 text-xl font-bold mb-4">2</div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Choose Platform or Area</h3>
+                    <p class="text-gray-500 text-sm">Pick a platform or manually select an area.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center card-hover">
+                    <div class="mx-auto w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-full text-yellow-500 text-xl font-bold mb-4">3</div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Download Cropped PDF</h3>
+                    <p class="text-gray-500 text-sm">Get your cropped label instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-12 bg-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-700">Why Choose Our Tool</h2>
+                <p class="mt-2 text-base text-gray-500 max-w-3xl mx-auto">
+                    Designed for e-commerce sellers to save time and effort.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-700">Automatic Detection</h3>
+                    <p class="mt-2 text-sm text-gray-500">Detects label areas for popular platforms.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-700">Privacy First</h3>
+                    <p class="mt-2 text-sm text-gray-500">Processing happens in your browser.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.657-1.343-3-3-3S6 9.343 6 11s1.343 3 3 3 3-1.343 3-3zm0 0c0 1.657 1.343 3 3 3s3-1.343 3-3-1.343-3-3-3-3 1.343-3 3z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-700">High Accuracy</h3>
+                    <p class="mt-2 text-sm text-gray-500">Precise cropping with quality preserved.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Footer -->
+<footer class="bg-gray-800 text-gray-200 py-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <!-- Brand Section -->
+            <div>
+                <a href="/" class="flex items-center justify-center md:justify-start mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
+                        <path d="M3 8a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-gray-200">PDFLabelCropper</span>
+                </a>
+                <p class="text-sm text-gray-400">Effortless PDF label cropping for e-commerce.</p>
+            </div>
+            <!-- Links Section -->
+            <div>
+                <h3 class="text-lg font-semibold text-yellow-400 mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="/" class="text-gray-300 hover:text-yellow-400 transition-colors">Home</a></li>
+                    <li><a href="/flipkart_crop.html" class="text-gray-300 hover:text-yellow-400 transition-colors">Flipkart</a></li>
+                    <li><a href="/meesho_crop.html" class="text-gray-300 hover:text-yellow-400 transition-colors">Meesho</a></li>
+                    <li><a href="/manual_cropping.html" class="text-gray-300 hover:text-yellow-400 transition-colors">Custom Crop</a></li>
+                    <li><a href="/about" class="text-gray-300 hover:text-yellow-400 transition-colors">About</a></li>
+                    <li><a href="/contact" class="text-gray-300 hover:text-yellow-400 transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <!-- Contact/Support Section -->
+            <div>
+                <h3 class="text-lg font-semibold text-yellow-400 mb-4">Support</h3>
+                <p class="text-sm text-gray-400">Need help? Reach out to us!</p>
+                <p class="text-sm text-gray-300 mt-2">
+                    <a href="mailto:support@pdflabelcropper.com" class="hover:text-yellow-400 transition-colors">support@pdflabelcropper.com</a>
+                </p>
+                <!-- <div class="mt-4 flex justify-center md:justify-start space-x-4">
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.3-1.6-1.3-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.5-.3-5.1-1.3-5.1-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.7.8 1.2 1.8 1.2 3.1 0 4.4-2.6 5.4-5.1 5.7.4.3.7 1 .7 2v3.3c0 .3.2.7.8.6A12 12 0 0012 0z" />
+                        </svg>
+                    </a>
+                </div> -->
+            </div>
+        </div>
+        <div class="mt-8 text-center border-t border-gray-700 pt-4">
+            <p class="text-sm text-gray-400">© 2025 PDFLabelCropper. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

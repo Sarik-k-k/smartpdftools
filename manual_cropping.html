@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Label Cropper | Custom Crop</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f9fafb;
+            scroll-behavior: smooth;
+            margin: 0;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #facc15;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .crop-area {
+            position: relative;
+            overflow: hidden;
+        }
+        #cropperImage {
+            display: block;
+            max-width: 500px;
+            max-height: 430px;
+            object-fit: contain;
+        }
+        .compact-input,
+        .compact-select {
+            height: 2.25rem;
+            font-size: 0.875rem;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background-color: #f3f4f6;
+        }
+        .compact-btn {
+            height: 2.5rem;
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-50 shadow-sm sticky top-0 z-50" x-data="{ open: false }">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
+                            <path d="M3 8a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-gray-700">PDFLabelCropper</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/flipkart_crop.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Flipkart</a>
+                    <a href="/meesho_crop.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">Meesho</a>
+                    <a href="/manual_cropping.html" class="nav-link text-yellow-500 border-b-2 border-yellow-400 font-medium" aria-current="page">Custom Crop</a>
+                    <a href="/about.html" class="nav-link text-gray-600 hover:text-yellow-500 font-medium">About</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-yellow-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg x-show="open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display: none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div x-show="open" class="md:hidden" style="display: none;">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Home</a>
+                    <a href="/flipkart_crop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Flipkart</a>
+                    <a href="/meesho_crop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">Meesho</a>
+                    <a href="/manual_cropping.html" class="block px-3 py-2 rounded-md text-base font-medium text-yellow-500 bg-gray-200" aria-current="page">Custom Crop</a>
+                    <a href="/about.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-yellow-500 hover:bg-gray-200">About</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow bg-gray-100 py-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+            <h1 class="text-2xl md:text-3xl mb-6 font-bold text-gray-600 text-center">Custom PDF <span class="text-yellow-400">Label Cropping</span></h1>
+            <div id="uploadSection" class="bg-white rounded-lg shadow-md p-6 card-hover">
+                <div id="dropArea" class="flex flex-col items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-yellow-400 transition-colors">
+                    <svg class="w-8 h-8 mb-2 mt-2 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <p class="text-lg font-semibold text-gray-700">Upload Your PDF</p>
+                    <p class="text-sm text-gray-500 mt-2">or</p>
+                    <p class="text-sm text-gray-500 mb-2">Drag and drop or click to select a PDF file</p>
+                    <label for="pdfInput" class="compact-btn inline-flex items-center mb-2 px-4 py-2 bg-yellow-400 text-gray-800 font-medium rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Select File
+                    </label>
+                    <input id="pdfInput" type="file" class="hidden" accept=".pdf" />
+                </div>
+            </div>
+            <div id="loadingMessage" class="hidden text-center py-4 text-gray-600">
+                <div class="animate-spin inline-block w-6 h-6 border-2 border-yellow-400 border-t-transparent rounded-full"></div>
+                <span class="ml-2 text-lg font-medium">Loading Your PDF...</span>
+            </div>
+            <div id="editingContainer" class="hidden bg-white rounded-lg shadow-md p-6 card-hover">
+                <div id="flashMessage" class="hidden mb-1 fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-500">
+                    <span id="flashText"></span>
+                </div>
+                <div id="pdfInfo" class="hidden mb-4 text-sm text-gray-500"></div>
+                <div class="flex flex-col md:flex-row gap-6 items-start">
+                    <div class="crop-area shadow-md">
+                        <canvas id="pdfCanvas" class="hidden"></canvas>
+                        <img id="cropperImage" />
+                    </div>
+                    <div class="w-full md:w-1/3 p-2">
+                        <h2 class="text-lg font-semibold text-gray-700 mb-4">Crop Settings</h2>
+                        <div class="mb-4">
+                            <p class="text-sm font-medium text-gray-600 mb-2">Selection Size</p>
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <div>
+                                    <label for="cropWidth" class="block text-sm text-gray-600 mb-1">Width</label>
+                                    <input type="number" id="cropWidth" class="w-full compact-input focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Width">
+                                </div>
+                                <div>
+                                    <label for="cropHeight" class="block text-sm text-gray-600 mb-1">Height</label>
+                                    <input type="number" id="cropHeight" class="w-full compact-input focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Height">
+                                </div>
+                            </div>
+                            <label for="unitSelect" class="block text-sm text-gray-600 mb-1">Unit</label>
+                            <select id="unitSelect" class="w-full compact-select focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                                <option value="px">Pixels (px)</option>
+                                <option value="in">Inches (in)</option>
+                                <option value="cm">Centimeters (cm)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <button id="cropBtn" class="w-full compact-btn bg-yellow-400 text-gray-800 font-medium hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400">Crop & Download</button>
+                            <button id="cropAnotherBtn" class="w-full compact-btn bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-gray-500 hidden">Crop Another PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="processingMessage" class="hidden text-center py-4 text-gray-600">
+                <div class="animate-spin inline-block w-6 h-6 border-2 border-yellow-400 border-t-transparent rounded-full"></div>
+                <span class="ml-2 text-lg font-medium">Processing PDF...</span>
+            </div>
+            <div id="flashMessage" class="hidden  fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-500000000000000000000">
+                <span id="flashText"></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+<footer class="bg-gray-800 text-gray-200 py-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <!-- Brand Section -->
+            <div>
+                <a href="/" class="flex items-center justify-center md:justify-start mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
+                        <path d="M3 8a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-gray-200">PDFLabelCropper</span>
+                </a>
+                <p class="text-sm text-gray-400">Effortless PDF label cropping for e-commerce.</p>
+            </div>
+            <!-- Links Section -->
+            <div>
+                <h3 class="text-lg font-semibold text-yellow-400 mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="/" class="text-gray-300 hover:text-yellow-400 transition-colors">Home</a></li>
+                    <li><a href="/flipkart_crop.html" class="text-gray-300 hover:text-yellow-400 transition-colors">Flipkart</a></li>
+                    <li><a href="/meesho_crop.html" class="text-gray-300 hover:text-yellow-400 transition-colors">Meesho</a></li>
+                    <li><a href="/manual_cropping.html" class="text-gray-300 hover:text-yellow-400 transition-colors">Custom Crop</a></li>
+                    <li><a href="/about" class="text-gray-300 hover:text-yellow-400 transition-colors">About</a></li>
+                    <li><a href="/contact" class="text-gray-300 hover:text-yellow-400 transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <!-- Contact/Support Section -->
+            <div>
+                <h3 class="text-lg font-semibold text-yellow-400 mb-4">Support</h3>
+                <p class="text-sm text-gray-400">Need help? Reach out to us!</p>
+                <p class="text-sm text-gray-300 mt-2">
+                    <a href="mailto:support@pdflabelcropper.com" class="hover:text-yellow-400 transition-colors">support@pdflabelcropper.com</a>
+                </p>
+                <!-- <div class="mt-4 flex justify-center md:justify-start space-x-4">
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.3-1.6-1.3-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.5-.3-5.1-1.3-5.1-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.7.8 1.2 1.8 1.2 3.1 0 4.4-2.6 5.4-5.1 5.7.4.3.7 1 .7 2v3.3c0 .3.2.7.8.6A12 12 0 0012 0z" />
+                        </svg>
+                    </a>
+                </div> -->
+            </div>
+        </div>
+        <div class="mt-8 text-center border-t border-gray-700 pt-4">
+            <p class="text-sm text-gray-400">© 2025 PDFLabelCropper. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    
+        const elements = {
+            pdfInput: document.getElementById('pdfInput'),
+            dropArea: document.getElementById('dropArea'),
+            pdfCanvas: document.getElementById('pdfCanvas'),
+            cropperImage: document.getElementById('cropperImage'),
+            uploadSection: document.getElementById('uploadSection'),
+            editingContainer: document.getElementById('editingContainer'),
+            pdfInfo: document.getElementById('pdfInfo'),
+            loadingMessage: document.getElementById('loadingMessage'),
+            processingMessage: document.getElementById('processingMessage'),
+            cropBtn: document.getElementById('cropBtn'),
+            cropAnotherBtn: document.getElementById('cropAnotherBtn'),
+            cropWidth: document.getElementById('cropWidth'),
+            cropHeight: document.getElementById('cropHeight'),
+            unitSelect: document.getElementById('unitSelect'),
+            flashMessage: document.getElementById('flashMessage'),
+            flashText: document.getElementById('flashText')
+        };
+    
+        let pdfDoc = null, totalPages = 0, pdfFile = null, cropper = null;
+        let initialScale = 1.0, dpi = 96, currentUnit = 'px';
+    
+        // Event Listeners for file input and drag-and-drop
+        elements.pdfInput.addEventListener('change', handleFiles);
+        elements.dropArea.addEventListener('dragenter', highlight, false);
+        elements.dropArea.addEventListener('dragover', highlight, false);
+        elements.dropArea.addEventListener('dragleave', unhighlight, false);
+        elements.dropArea.addEventListener('drop', handleDrop, false);
+        elements.cropBtn.addEventListener('click', cropPdf);
+        elements.cropAnotherBtn.addEventListener('click', () => window.location.reload());
+        elements.cropWidth.addEventListener('input', updateCropBoxFromInputs);
+        elements.cropHeight.addEventListener('input', updateCropBoxFromInputs);
+        elements.unitSelect.addEventListener('change', handleUnitChange);
+    
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    
+        function highlight(e) {
+            preventDefaults(e);
+            elements.dropArea.classList.add('border-yellow-400', 'bg-yellow-50');
+        }
+    
+        function unhighlight(e) {
+            preventDefaults(e);
+            elements.dropArea.classList.remove('border-yellow-400', 'bg-yellow-50');
+        }
+    
+        function handleDrop(e) {
+            preventDefaults(e);
+            const files = e.dataTransfer.files;
+            handleFiles({ target: { files } });
+        }
+    
+        function handleFiles(e) {
+            const file = e.target.files[0];
+            if (!file || file.type !== 'application/pdf') return alert('Please select a PDF file');
+    
+            pdfFile = file;
+            if (cropper) cropper.destroy();
+            elements.uploadSection.classList.add('hidden');
+            elements.loadingMessage.classList.remove('hidden');
+            elements.editingContainer.classList.add('hidden');
+            elements.cropAnotherBtn.classList.add('hidden');
+            elements.cropWidth.value = elements.cropHeight.value = '';
+    
+            processFile(file);
+        }
+    
+        async function processFile(file) {
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                pdfDoc = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+                totalPages = pdfDoc.numPages;
+    
+                elements.pdfInfo.textContent = `Loaded: ${file.name} (${totalPages} pages)`;
+                elements.pdfInfo.classList.remove('hidden');
+                await renderFirstPage();
+                elements.loadingMessage.classList.add('hidden');
+                elements.editingContainer.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                elements.loadingMessage.classList.add('hidden');
+                elements.uploadSection.classList.remove('hidden');
+                alert('Error loading PDF. Please try again.');
+            }
+        }
+    
+        function handleUnitChange() {
+            currentUnit = elements.unitSelect.value;
+            if (cropper) updateInputsFromCropBox();
+        }
+    
+        function pxToUnit(px) {
+            return currentUnit === 'in' ? px / dpi : currentUnit === 'cm' ? (px / dpi) * 2.54 : px;
+        }
+    
+        function unitToPx(value) {
+            return currentUnit === 'in' ? value * dpi : currentUnit === 'cm' ? (value / 2.54) * dpi : value;
+        }
+    
+        function formatValue(value) {
+            return currentUnit === 'px' ? Math.round(value) : value.toFixed(2);
+        }
+    
+        async function renderFirstPage() {
+            try {
+                const page = await pdfDoc.getPage(1);
+                const boxWidth = window.innerWidth * 0.5;
+                const boxHeight = window.innerHeight * 0.6;
+                const pdfWidth = page.getViewport({ scale: 0.1 }).width;
+                const pdfHeight = page.getViewport({ scale: 0.1 }).height;
+    
+                initialScale = Math.min(boxWidth / pdfWidth, boxHeight / pdfHeight);
+                const viewport = page.getViewport({ scale: initialScale });
+                elements.pdfCanvas.width = viewport.width;
+                elements.pdfCanvas.height = viewport.height;
+    
+                await page.render({
+                    canvasContext: elements.pdfCanvas.getContext('2d'),
+                    viewport: viewport
+                }).promise;
+    
+                elements.cropperImage.src = elements.pdfCanvas.toDataURL('image/png');
+                elements.cropperImage.onload = () => {
+                    cropper = new Cropper(elements.cropperImage, {
+                        viewMode: 1,
+                        dragMode: 'crop',
+                        autoCrop: true,
+                        autoCropArea: 0.5,
+                        restore: true,
+                        modal: true,
+                        guides: true,
+                        highlight: true,
+                        cropBoxMovable: true,
+                        cropBoxResizable: true,
+                        toggleDragModeOnDblclick: false,
+                        zoomable: false,
+                        ready() {
+                            this.cropper.element.addEventListener('crop', updateInputsFromCropBox);
+                            const initialData = this.cropper.getData();
+                            elements.cropWidth.value = formatValue(pxToUnit(initialData.width));
+                            elements.cropHeight.value = formatValue(pxToUnit(initialData.height));
+                        }
+                    });
+                };
+            } catch (error) {
+                console.error('Error rendering page:', error);
+                alert('Error rendering PDF page.');
+            }
+        }
+    
+        function updateInputsFromCropBox() {
+            if (!cropper) return;
+            const data = cropper.getData();
+            elements.cropWidth.value = formatValue(pxToUnit(data.width));
+            elements.cropHeight.value = formatValue(pxToUnit(data.height));
+        }
+    
+        function updateCropBoxFromInputs() {
+            if (!cropper) return;
+            const width = parseFloat(elements.cropWidth.value) || 0;
+            const height = parseFloat(elements.cropHeight.value) || 0;
+            if (width > 0 && height > 0) {
+                const data = cropper.getData();
+                cropper.setData({ ...data, width: unitToPx(width), height: unitToPx(height) });
+            }
+        }
+    
+        function showFlashMessage(message) {
+            elements.flashText.textContent = message;
+            elements.flashMessage.classList.remove('hidden', 'opacity-0');
+            elements.flashMessage.classList.add('opacity-100');
+            setTimeout(() => {
+                elements.flashMessage.classList.remove('opacity-100');
+                elements.flashMessage.classList.add('opacity-0');
+                setTimeout(() => elements.flashMessage.classList.add('hidden'), 500); // Match transition duration
+            }, 3000); // Display for 3 seconds
+        }
+    
+        async function cropPdf() {
+            if (!cropper || !pdfFile) return alert('Please upload a PDF and select a crop area.');
+    
+            elements.processingMessage.classList.remove('hidden');
+            elements.cropBtn.disabled = true;
+    
+            try {
+                const cropData = cropper.getData();
+                const scale = 1 / initialScale;
+                const { PDFDocument } = PDFLib;
+                const sourcePdfDoc = await PDFDocument.load(await pdfFile.arrayBuffer());
+                const newPdfDoc = await PDFDocument.create();
+    
+                for (let i = 0; i < sourcePdfDoc.getPageCount(); i++) {
+                    const sourcePage = sourcePdfDoc.getPage(i);
+                    const pageHeight = sourcePage.getHeight();
+                    const cropX = cropData.x * scale;
+                    const cropY = pageHeight - (cropData.y * scale + cropData.height * scale);
+                    const cropWidth = cropData.width * scale;
+                    const cropHeight = cropData.height * scale;
+    
+                    const newPage = newPdfDoc.addPage([cropWidth, cropHeight]);
+                    const embedPage = await newPdfDoc.embedPage(sourcePage, {
+                        left: cropX,
+                        bottom: cropY,
+                        right: cropX + cropWidth,
+                        top: cropY + cropHeight
+                    });
+                    newPage.drawPage(embedPage, { x: 0, y: 0, width: cropWidth, height: cropHeight });
+                }
+    
+                const newPdfBytes = await newPdfDoc.save();
+                const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                const fileName = `cropped_${pdfFile.name}`;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+    
+                // Show flash message
+                showFlashMessage(`Your ${fileName} is downloaded!`);
+    
+                // Update Crop Another PDF button styling
+                elements.cropAnotherBtn.classList.remove('hidden', 'bg-gray-600', 'hover:bg-gray-700');
+                elements.cropAnotherBtn.classList.add('bg-yellow-500', 'hover:bg-yellow-600', 'shadow-lg', 'transform', 'hover:scale-105', 'transition', 'duration-300');
+    
+                elements.processingMessage.classList.add('hidden');
+                elements.cropBtn.disabled = false;
+            } catch (error) {
+                console.error('Error cropping PDF:', error);
+                elements.processingMessage.classList.add('hidden');
+                elements.cropBtn.disabled = false;
+                alert('Error cropping PDF. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
